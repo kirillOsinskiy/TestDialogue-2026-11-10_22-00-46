@@ -35,7 +35,13 @@ MonoBehaviour:
     - Id: greeting.ask_business
       Text: "\u041E \u0442\u043E\u043C \u0440\u0435\u0433\u0443\u043B\u044F\u0442\u043E\u0440\u0435\u2026"
       Availability:
-        AnyOf: []
+        AnyOf:
+        - AllOf:
+          - Type: 0
+            Key: merchant_marked_part.greeting.ask_stock
+            ExpectedValue: 1
+            Comparison: 0
+            IntValue: 0
       Effects: []
       Destination:
         Type: 1
@@ -378,7 +384,7 @@ MonoBehaviour:
       Effects: []
       Destination:
         Type: 1
-        NodeId: merchant_reported
+        NodeId: reported
     - Id: hub.leave
       Text: "\u042F \u0435\u0449\u0451 \u043F\u043E\u0434\u0443\u043C\u0430\u044E.
         \u0414\u043E \u0432\u0441\u0442\u0440\u0435\u0447\u0438."
