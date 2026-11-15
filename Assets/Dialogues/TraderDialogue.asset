@@ -1,0 +1,536 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87079388cc85d6d45a6a5e684015d008, type: 3}
+  m_Name: TraderDialogue
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Dialogue.DialogueAsset
+  Id: merchant_marked_part
+  DisplayName: "\u0427\u0443\u0436\u0430\u044F \u043C\u0435\u0442\u043A\u0430"
+  SpeakerName: "\u0422\u043E\u0440\u0433\u043E\u0432\u0435\u0446 \u0421\u0430\u0432\u0435\u043B"
+  EntryNodeId: greeting
+  Nodes:
+  - Id: greeting
+    Text: "\u041F\u043E\u0434\u0445\u043E\u0434\u0438. \u041A\u0440\u0435\u043F\u0451\u0436,
+      \u0442\u043A\u0430\u043D\u044C, \u0434\u0435\u0442\u0430\u043B\u0438 \u0434\u043B\u044F
+      \u043D\u0430\u0441\u043E\u0441\u043E\u0432. \u0412\u0441\u0451 \u043F\u044B\u043B\u044C\u043D\u043E\u0435,
+      \u0437\u0430\u0442\u043E \u043D\u0435 \u0440\u0430\u0437\u0432\u0430\u043B\u0438\u0432\u0430\u0435\u0442\u0441\u044F
+      \u0432 \u0440\u0443\u043A\u0430\u0445."
+    Choices:
+    - Id: greeting.ask_stock
+      Text: "\u041F\u043E\u043A\u0430\u0436\u0438, \u0447\u0442\u043E \u0435\u0441\u0442\u044C."
+      Availability:
+        AnyOf: []
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: stock
+    - Id: greeting.ask_business
+      Text: "\u041E \u0442\u043E\u043C \u0440\u0435\u0433\u0443\u043B\u044F\u0442\u043E\u0440\u0435\u2026"
+      Availability:
+        AnyOf: []
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: hub
+    - Id: greeting.leave
+      Text: "\u0412 \u0434\u0440\u0443\u0433\u043E\u0439 \u0440\u0430\u0437."
+      Availability:
+        AnyOf: []
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: goodbye
+  - Id: stock
+    Text: "\u0412\u043E\u0442 \u0440\u0435\u0433\u0443\u043B\u044F\u0442\u043E\u0440
+      \u0434\u0430\u0432\u043B\u0435\u043D\u0438\u044F. \u0421\u0442\u0430\u0440\u044B\u0439,
+      \u043D\u043E \u0446\u0435\u043B\u044B\u0439. \u041D\u0430 \u043A\u043E\u0440\u043F\u0443\u0441\u0435
+      \u0447\u0443\u0436\u0430\u044F \u043C\u0435\u0442\u043A\u0430 \u2014 \u043D\u0435
+      \u043E\u0431\u0440\u0430\u0449\u0430\u0439 \u0432\u043D\u0438\u043C\u0430\u043D\u0438\u044F,
+      \u0436\u0435\u043B\u0435\u0437\u043E \u0445\u043E\u0437\u044F\u0435\u0432 \u043F\u0435\u0440\u0435\u0436\u0438\u0432\u0430\u0435\u0442."
+    Choices:
+    - Id: stock.inspect_mark
+      Text: "\u041F\u043E\u043A\u0430\u0436\u0438 \u043C\u0435\u0442\u043A\u0443
+        \u043F\u043E\u0431\u043B\u0438\u0436\u0435."
+      Availability:
+        AnyOf:
+        - AllOf:
+          - Type: 3
+            Key: merchant.resolved
+            ExpectedValue: 0
+            Comparison: 0
+            IntValue: 0
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: mark
+    - Id: stock.ignore_origin
+      Text: "\u041F\u0440\u043E\u0438\u0441\u0445\u043E\u0436\u0434\u0435\u043D\u0438\u0435
+        \u2014 \u0442\u0432\u043E\u0451 \u0434\u0435\u043B\u043E. \u041F\u043E\u043A\u0430\u0436\u0438
+        \u0442\u043E\u0432\u0430\u0440\u044B."
+      Availability:
+        AnyOf:
+        - AllOf:
+          - Type: 3
+            Key: merchant.resolved
+            ExpectedValue: 0
+            Comparison: 0
+            IntValue: 0
+      Effects:
+      - Type: 1
+        Key: merchant.ignored_origin
+        IntValue: 0
+        BoolValue: 1
+      - Type: 1
+        Key: merchant.resolved
+        IntValue: 0
+        BoolValue: 1
+      - Type: 4
+        Key: trade
+        IntValue: 0
+        BoolValue: 0
+      Destination:
+        Type: 1
+        NodeId: goodbye
+    - Id: stock.trade_again
+      Text: "\u041E\u0442\u043A\u0440\u043E\u0439 \u0442\u043E\u0432\u0430\u0440\u044B."
+      Availability:
+        AnyOf:
+        - AllOf:
+          - Type: 3
+            Key: merchant.resolved
+            ExpectedValue: 1
+            Comparison: 0
+            IntValue: 0
+          - Type: 3
+            Key: merchant.report_started
+            ExpectedValue: 0
+            Comparison: 0
+            IntValue: 0
+      Effects:
+      - Type: 4
+        Key: trade
+        IntValue: 0
+        BoolValue: 0
+      Destination:
+        Type: 1
+        NodeId: goodbye
+    - Id: stock.leave
+      Text: "\u041F\u043E\u043A\u0430 \u043D\u0438\u0447\u0435\u0433\u043E \u043D\u0435
+        \u043D\u0443\u0436\u043D\u043E."
+      Availability:
+        AnyOf: []
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: goodbye
+  - Id: mark
+    Text: "\u0414\u0430, \u043A\u043B\u0435\u0439\u043C\u043E \u043C\u0435\u0441\u0442\u043D\u043E\u0433\u043E
+      \u0432\u043E\u0434\u043E\u0441\u0431\u043E\u0440\u043D\u0438\u043A\u0430. \u0418
+      \u0447\u0442\u043E? \u041E\u0431\u0449\u0438\u043D\u044B \u0442\u043E\u0436\u0435
+      \u043F\u0440\u043E\u0434\u0430\u044E\u0442 \u0441\u0442\u0430\u0440\u044B\u0435
+      \u0434\u0435\u0442\u0430\u043B\u0438. \u041D\u0435 \u0432\u0441\u0451 \u0441
+      \u0447\u0443\u0436\u0438\u043C \u0437\u043D\u0430\u043A\u043E\u043C \u0443\u043A\u0440\u0430\u0434\u0435\u043D\u043E."
+    Choices:
+    - Id: mark.ask_origin
+      Text: "\u0423 \u043A\u043E\u0433\u043E \u0442\u044B \u0435\u0433\u043E \u0432\u0437\u044F\u043B?"
+      Availability:
+        AnyOf: []
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: excuse
+    - Id: mark.back
+      Text: "\u041C\u043D\u0435 \u043D\u0443\u0436\u043D\u043E \u043F\u043E\u0434\u0443\u043C\u0430\u0442\u044C."
+      Availability:
+        AnyOf: []
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: hub
+  - Id: excuse
+    Text: "\u0423 \u043F\u0435\u0440\u0435\u0432\u043E\u0437\u0447\u0438\u043A\u0430
+      \u0441 \u044E\u0436\u043D\u043E\u0439 \u0434\u043E\u0440\u043E\u0433\u0438.
+      \u041E\u043D \u0441\u043A\u0430\u0437\u0430\u043B: \u043E\u0441\u0442\u0430\u0442\u043A\u0438
+      \u0441\u043F\u0438\u0441\u0430\u043D\u043D\u043E\u0433\u043E \u0433\u0440\u0443\u0437\u0430.
+      \u0411\u0443\u043C\u0430\u0433\u0438 \u043E\u0441\u0442\u0430\u0432\u0438\u043B.
+      \u0422\u043E\u043B\u044C\u043A\u043E \u043D\u0435 \u043D\u0430\u0434\u043E
+      \u0441\u0440\u0430\u0437\u0443 \u0441\u043E\u0437\u044B\u0432\u0430\u0442\u044C
+      \u0432\u0441\u044E \u043F\u043B\u043E\u0449\u0430\u0434\u044C."
+    Choices:
+    - Id: excuse.offer_private_talk
+      Text: "\u0421\u043D\u0430\u0447\u0430\u043B\u0430 \u0440\u0430\u0437\u0431\u0435\u0440\u0451\u043C\u0441\u044F
+        \u043C\u0435\u0436\u0434\u0443 \u0441\u043E\u0431\u043E\u0439. \u0411\u0435\u0437
+        \u0442\u043E\u043B\u043F\u044B."
+      Availability:
+        AnyOf:
+        - AllOf:
+          - Type: 3
+            Key: merchant.resolved
+            ExpectedValue: 0
+            Comparison: 0
+            IntValue: 0
+          - Type: 0
+            Key: merchant_marked_part.excuse.offer_private_talk
+            ExpectedValue: 0
+            Comparison: 0
+            IntValue: 0
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: hub
+    - Id: excuse.no_assurances
+      Text: "\u041D\u0438\u0447\u0435\u0433\u043E \u043E\u0431\u0435\u0449\u0430\u0442\u044C
+        \u043D\u0435 \u0431\u0443\u0434\u0443."
+      Availability:
+        AnyOf: []
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: hub
+  - Id: papers
+    Text: "\u0412\u043E\u0442 \u043D\u0430\u043A\u043B\u0430\u0434\u043D\u0430\u044F.
+      \u041F\u043E\u043B\u0443\u0447\u0430\u0442\u0435\u043B\u044C \u2014 \u0432\u043E\u0434\u043E\u0441\u0431\u043E\u0440\u043D\u0438\u043A.
+      \u0420\u0435\u0433\u0443\u043B\u044F\u0442\u043E\u0440, \u043E\u0434\u043D\u0430
+      \u0448\u0442\u0443\u043A\u0430\u2026 \u041E\u0442\u043C\u0435\u0442\u043A\u0438
+      \u043E \u0441\u043F\u0438\u0441\u0430\u043D\u0438\u0438 \u043D\u0435\u0442.
+      \u041F\u0440\u043E\u043A\u043B\u044F\u0442\u044C\u0435. \u0410 \u044F \u043F\u043E\u0432\u0435\u0440\u0438\u043B
+      \u0435\u043C\u0443 \u043D\u0430 \u0441\u043B\u043E\u0432\u043E."
+    Choices:
+    - Id: papers.remember_manifest
+      Text: "\u0417\u043D\u0430\u0447\u0438\u0442, \u043E\u0431\u0449\u0438\u043D\u0430
+        \u044D\u0442\u043E\u0442 \u0433\u0440\u0443\u0437 \u0442\u0430\u043A \u0438
+        \u043D\u0435 \u043F\u043E\u043B\u0443\u0447\u0438\u043B\u0430."
+      Availability:
+        AnyOf: []
+      Effects:
+      - Type: 2
+        Key: info.merchant_manifest
+        IntValue: 0
+        BoolValue: 0
+      Destination:
+        Type: 1
+        NodeId: hub
+  - Id: hub
+    Text: "\u041D\u0443? \u0427\u0442\u043E \u0442\u044B \u0440\u0435\u0448\u0438\u043B
+      \u043D\u0430\u0441\u0447\u0451\u0442 \u0440\u0435\u0433\u0443\u043B\u044F\u0442\u043E\u0440\u0430?"
+    Choices:
+    - Id: hub.ask_origin
+      Text: "\u0415\u0449\u0451 \u0440\u0430\u0437: \u043E\u0442\u043A\u0443\u0434\u0430
+        \u043E\u043D \u0443 \u0442\u0435\u0431\u044F?"
+      Availability:
+        AnyOf:
+        - AllOf:
+          - Type: 3
+            Key: merchant.resolved
+            ExpectedValue: 0
+            Comparison: 0
+            IntValue: 0
+          - Type: 2
+            Key: info.merchant_manifest
+            ExpectedValue: 0
+            Comparison: 0
+            IntValue: 0
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: excuse
+    - Id: hub.request_papers
+      Text: "\u0414\u043E\u0433\u043E\u0432\u043E\u0440\u0438\u043B\u0438\u0441\u044C
+        \u0431\u0435\u0437 \u0442\u043E\u043B\u043F\u044B. \u041F\u043E\u043A\u0430\u0436\u0438
+        \u043D\u0430\u043A\u043B\u0430\u0434\u043D\u0443\u044E."
+      Availability:
+        AnyOf:
+        - AllOf:
+          - Type: 3
+            Key: merchant.resolved
+            ExpectedValue: 0
+            Comparison: 0
+            IntValue: 0
+          - Type: 0
+            Key: merchant_marked_part.excuse.offer_private_talk
+            ExpectedValue: 1
+            Comparison: 0
+            IntValue: 0
+          - Type: 2
+            Key: info.merchant_manifest
+            ExpectedValue: 0
+            Comparison: 0
+            IntValue: 0
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: papers
+    - Id: hub.negotiate_return
+      Text: "\u041F\u043E \u043D\u0430\u043A\u043B\u0430\u0434\u043D\u043E\u0439
+        \u0440\u0435\u0433\u0443\u043B\u044F\u0442\u043E\u0440 \u043F\u0440\u0438\u043D\u0430\u0434\u043B\u0435\u0436\u0438\u0442
+        \u043E\u0431\u0449\u0438\u043D\u0435. \u0412\u0435\u0440\u043D\u0438 \u0435\u0433\u043E."
+      Availability:
+        AnyOf:
+        - AllOf:
+          - Type: 3
+            Key: merchant.resolved
+            ExpectedValue: 0
+            Comparison: 0
+            IntValue: 0
+          - Type: 2
+            Key: info.merchant_manifest
+            ExpectedValue: 1
+            Comparison: 0
+            IntValue: 0
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: settlement
+    - Id: hub.report
+      Text: "\u0421 \u044D\u0442\u0438\u043C \u0434\u043E\u043B\u0436\u0435\u043D
+        \u0440\u0430\u0437\u043E\u0431\u0440\u0430\u0442\u044C\u0441\u044F \u043A\u043B\u0430\u0434\u043E\u0432\u0449\u0438\u043A.
+        \u042F \u043F\u0435\u0440\u0435\u0434\u0430\u043C \u0435\u043C\u0443 \u0441\u0432\u0435\u0434\u0435\u043D\u0438\u044F."
+      Availability:
+        AnyOf:
+        - AllOf:
+          - Type: 3
+            Key: merchant.resolved
+            ExpectedValue: 0
+            Comparison: 0
+            IntValue: 0
+          - Type: 2
+            Key: info.merchant_manifest
+            ExpectedValue: 1
+            Comparison: 0
+            IntValue: 0
+      Effects:
+      - Type: 3
+        Key: quest.report_marked_cargo
+        IntValue: 0
+        BoolValue: 0
+      - Type: 1
+        Key: merchant.report_started
+        IntValue: 0
+        BoolValue: 1
+      - Type: 1
+        Key: merchant.resolved
+        IntValue: 0
+        BoolValue: 1
+      Destination:
+        Type: 1
+        NodeId: reported
+    - Id: hub.ignore_origin
+      Text: "\u041D\u0435 \u0441\u0442\u0430\u043D\u0443 \u0432 \u044D\u0442\u043E
+        \u0432\u043C\u0435\u0448\u0438\u0432\u0430\u0442\u044C\u0441\u044F. \u041F\u043E\u043A\u0430\u0436\u0438
+        \u0442\u043E\u0432\u0430\u0440\u044B."
+      Availability:
+        AnyOf:
+        - AllOf:
+          - Type: 3
+            Key: merchant.resolved
+            ExpectedValue: 0
+            Comparison: 0
+            IntValue: 0
+      Effects:
+      - Type: 1
+        Key: merchant.ignored_origin
+        IntValue: 0
+        BoolValue: 1
+      - Type: 1
+        Key: merchant.resolved
+        IntValue: 0
+        BoolValue: 1
+      - Type: 4
+        Key: trade
+        IntValue: 0
+        BoolValue: 0
+      Destination:
+        Type: 1
+        NodeId: goodbye
+    - Id: hub.check_return
+      Text: "\u0427\u0442\u043E \u0441 \u0432\u043E\u0437\u0432\u0440\u0430\u0442\u043E\u043C
+        \u0440\u0435\u0433\u0443\u043B\u044F\u0442\u043E\u0440\u0430?"
+      Availability:
+        AnyOf:
+        - AllOf:
+          - Type: 3
+            Key: merchant.part_returned
+            ExpectedValue: 1
+            Comparison: 0
+            IntValue: 0
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: returned
+    - Id: hub.check_report
+      Text: "\u041E \u0440\u0430\u0437\u0431\u0438\u0440\u0430\u0442\u0435\u043B\u044C\u0441\u0442\u0432\u0435\u2026"
+      Availability:
+        AnyOf:
+        - AllOf:
+          - Type: 3
+            Key: merchant.report_started
+            ExpectedValue: 1
+            Comparison: 0
+            IntValue: 0
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: merchant_reported
+    - Id: hub.leave
+      Text: "\u042F \u0435\u0449\u0451 \u043F\u043E\u0434\u0443\u043C\u0430\u044E.
+        \u0414\u043E \u0432\u0441\u0442\u0440\u0435\u0447\u0438."
+      Availability:
+        AnyOf: []
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: goodbye
+  - Id: settlement
+    Text: "\u041B\u0430\u0434\u043D\u043E. \u041E\u0442\u0434\u0430\u043C \u0440\u0435\u0433\u0443\u043B\u044F\u0442\u043E\u0440
+      \u043E\u0431\u0449\u0438\u043D\u0435, \u0447\u0435\u0440\u0435\u0437 \u0438\u0445
+      \u0441\u0431\u043E\u0440\u0449\u0438\u043A\u0430. \u041F\u043E\u0442\u0435\u0440\u044F\u044E
+      \u0442\u043E, \u0447\u0442\u043E \u0437\u0430\u043F\u043B\u0430\u0442\u0438\u043B
+      \u043F\u0435\u0440\u0435\u0432\u043E\u0437\u0447\u0438\u043A\u0443, \u0437\u0430\u0442\u043E
+      \u0431\u0435\u0437 \u043F\u0443\u0431\u043B\u0438\u0447\u043D\u043E\u0433\u043E
+      \u043E\u0431\u0432\u0438\u043D\u0435\u043D\u0438\u044F. \u0422\u0430\u043A
+      \u0437\u0430\u043A\u0440\u043E\u0435\u043C \u0432\u043E\u043F\u0440\u043E\u0441?"
+    Choices:
+    - Id: settlement.accept_return
+      Text: "\u0414\u0430. \u0412\u0435\u0440\u043D\u0438 \u0434\u0435\u0442\u0430\u043B\u044C
+        \u2014 \u043D\u0430 \u044D\u0442\u043E\u043C \u0437\u0430\u043A\u043E\u043D\u0447\u0438\u043C."
+      Availability:
+        AnyOf:
+        - AllOf:
+          - Type: 3
+            Key: merchant.resolved
+            ExpectedValue: 0
+            Comparison: 0
+            IntValue: 0
+          - Type: 2
+            Key: info.merchant_manifest
+            ExpectedValue: 1
+            Comparison: 0
+            IntValue: 0
+      Effects:
+      - Type: 1
+        Key: merchant.part_returned
+        IntValue: 0
+        BoolValue: 1
+      - Type: 0
+        Key: water_community
+        IntValue: 1
+        BoolValue: 0
+      - Type: 1
+        Key: merchant.resolved
+        IntValue: 0
+        BoolValue: 1
+      Destination:
+        Type: 1
+        NodeId: returned
+    - Id: settlement.report
+      Text: "\u041D\u0435\u0442. \u041D\u0443\u0436\u043D\u043E \u0432\u044B\u044F\u0441\u043D\u0438\u0442\u044C,
+        \u043A\u0443\u0434\u0430 \u0434\u0435\u043B\u0441\u044F \u043E\u0441\u0442\u0430\u043B\u044C\u043D\u043E\u0439
+        \u0433\u0440\u0443\u0437."
+      Availability:
+        AnyOf:
+        - AllOf:
+          - Type: 3
+            Key: merchant.resolved
+            ExpectedValue: 0
+            Comparison: 0
+            IntValue: 0
+          - Type: 2
+            Key: info.merchant_manifest
+            ExpectedValue: 1
+            Comparison: 0
+            IntValue: 0
+      Effects:
+      - Type: 3
+        Key: quest.report_marked_cargo
+        IntValue: 0
+        BoolValue: 0
+      - Type: 1
+        Key: merchant.report_started
+        IntValue: 0
+        BoolValue: 1
+      - Type: 1
+        Key: merchant.resolved
+        IntValue: 0
+        BoolValue: 1
+      Destination:
+        Type: 1
+        NodeId: reported
+    - Id: settlement.defer
+      Text: "\u041F\u043E\u043A\u0430 \u043D\u0435 \u0440\u0435\u0448\u0438\u043B."
+      Availability:
+        AnyOf: []
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: hub
+  - Id: returned
+    Text: "\u0420\u0435\u0433\u0443\u043B\u044F\u0442\u043E\u0440 \u043F\u0435\u0440\u0435\u0434\u0430\u043D
+      \u0441\u0431\u043E\u0440\u0449\u0438\u043A\u0443 \u0432\u043E\u0434\u043E\u0441\u0431\u043E\u0440\u043D\u0438\u043A\u0430.
+      \u041F\u0443\u0441\u0442\u044C \u0441\u0442\u0430\u0432\u044F\u0442 \u043D\u0430
+      \u043D\u0430\u0441\u043E\u0441. \u0410 \u0441 \u0442\u0435\u043C \u043F\u0435\u0440\u0435\u0432\u043E\u0437\u0447\u0438\u043A\u043E\u043C
+      \u044F \u0431\u043E\u043B\u044C\u0448\u0435 \u0434\u0435\u043B \u0438\u043C\u0435\u0442\u044C
+      \u043D\u0435 \u0445\u043E\u0447\u0443."
+    Choices:
+    - Id: returned.community_stock
+      Text: "\u041E\u0431\u0449\u0438\u043D\u0430 \u043C\u043D\u0435 \u0434\u043E\u0432\u0435\u0440\u044F\u0435\u0442.
+        \u041F\u043E\u043A\u0430\u0436\u0435\u0448\u044C \u0437\u0430\u043F\u0430\u0441
+        \u0434\u043B\u044F \u0435\u0451 \u0440\u0435\u043C\u043E\u043D\u0442\u043D\u0438\u043A\u043E\u0432?"
+      Availability:
+        AnyOf:
+        - AllOf:
+          - Type: 3
+            Key: merchant.part_returned
+            ExpectedValue: 1
+            Comparison: 0
+            IntValue: 0
+          - Type: 1
+            Key: water_community
+            ExpectedValue: 0
+            Comparison: 3
+            IntValue: 1
+      Effects:
+      - Type: 4
+        Key: trade
+        IntValue: 0
+        BoolValue: 0
+      Destination:
+        Type: 1
+        NodeId: goodbye
+    - Id: returned.leave
+      Text: "\u0425\u043E\u0440\u043E\u0448\u043E. \u041D\u0430 \u044D\u0442\u043E\u043C
+        \u0432\u0441\u0451."
+      Availability:
+        AnyOf: []
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: goodbye
+  - Id: reported
+    Text: "\u0417\u043D\u0430\u0447\u0438\u0442, \u0431\u0443\u0434\u0435\u0442 \u0440\u0430\u0437\u0431\u0438\u0440\u0430\u0442\u0435\u043B\u044C\u0441\u0442\u0432\u043E.
+      \u0420\u0435\u0433\u0443\u043B\u044F\u0442\u043E\u0440 \u043E\u0442\u043B\u043E\u0436\u0443,
+      \u0431\u0443\u043C\u0430\u0433\u0438 \u0441\u043E\u0445\u0440\u0430\u043D\u044E.
+      \u041D\u043E \u0442\u043E\u0440\u0433\u043E\u0432\u0430\u0442\u044C \u0441
+      \u0442\u043E\u0431\u043E\u0439 \u0434\u043E \u0432\u044B\u044F\u0441\u043D\u0435\u043D\u0438\u044F
+      \u043D\u0435 \u0441\u0442\u0430\u043D\u0443."
+    Choices:
+    - Id: reported.leave
+      Text: "\u041A\u043B\u0430\u0434\u043E\u0432\u0449\u0438\u043A \u0432\u044B\u0441\u043B\u0443\u0448\u0430\u0435\u0442
+        \u0438 \u0442\u0432\u043E\u044E \u0441\u0442\u043E\u0440\u043E\u043D\u0443."
+      Availability:
+        AnyOf: []
+      Effects: []
+      Destination:
+        Type: 1
+        NodeId: goodbye
+  - Id: goodbye
+    Text: "\u041B\u0430\u0434\u043D\u043E. \u0414\u043E\u0440\u043E\u0433\u0430 \u0441\u0430\u043C\u0430
+      \u0441\u0435\u0431\u044F \u043D\u0435 \u043F\u0440\u043E\u0439\u0434\u0451\u0442."
+    Choices: []
